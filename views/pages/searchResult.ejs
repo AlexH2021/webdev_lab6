@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <title>Movieflix</title>
+</head>
+
+<body>
+  <!-- Your Code Goes Here -->
+  <% if(movieDescription != "") { %>
+    <h1 name=<%=movieItem%> id=<%=movieItem%> > <%= movieItem %> </h1>
+    <p><%= movieDescription %></p>
+    <a href="/">Home page</a>
+  <% } else{ %>  
+      <h2>Sorry, You don't seem to have any movie(s) descriptions.</h2>
+  <% } %>
+</body>
+
+</html>
