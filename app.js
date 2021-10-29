@@ -1,24 +1,23 @@
 /*
- Authors:
- Your name and student #:
+ Authors: A Ut Hong
+ Your name and student #: A01249270
  Your Partner's Name and student #:
  (Make sure you also specify on the Google Doc)
 */
 const express = require("express");
-const fs = require("fs").promises;
-const { EOL } = require("os");
 
-let app = express();
+const app = express();
+const movieListController = require("./controllers/movieListController");
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
-
 
 app.get("/", (req, res) => res.render("pages/index"));
 
 app.get("/myForm", (req, res) => res.render("pages/myForm"));
 
-app.post("/myForm", (req, res) => {
+app.post("/", (req, res) => {
     // Add your implementation here 
     let formData = req.body;
     let movieItems = (formData.text_area).split(",");
@@ -34,29 +33,13 @@ app.get("/myListQueryString", (req, res) => {
     res.render("pages/index", {movieItems});
 });
 
-const readData = (file) => {
-    return new Promise((resolve, reject) => {
-        const movieObj = {};
-        fs.readFile(file, "utf-8")
-        .then(result => {
-            let items = (result.split(EOL));
-            for (const iterator of items) {
-                let tmp = iterator.split(":");
-                movieObj[`${tmp[0]}`] = tmp[1];
-            }
-            resolve(movieObj);
-        })
-        .catch(err => reject(err));
-    });
-}
-
 app.get("/search/:movieName", (req, res) => {
     // Add your implementation here
     let movieItem = (req.params.movieName).charAt(0).toUpperCase() + (req.params.movieName).slice(1);
     let movieDescription = undefined;
     let filename = "movieDescriptions.txt";
-    
-    readData(filename)
+
+    movieListController.readData(filename)
     .then(data => {
         if(movieItem in data) {
             movieDescription = data[movieItem];
@@ -69,5 +52,5 @@ app.get("/search/:movieName", (req, res) => {
 });
 
 app.listen(3002, () => {
-    console.log("Server is running on port 3000 🚀");
+    console.log("Server is running on port 3002 🚀");
 });
